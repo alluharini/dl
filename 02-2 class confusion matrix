@@ -1,0 +1,13 @@
+import numpy as np
+from sklearn.metrics import confusion_matrix
+import seaborn as sns
+import matplotlib.pyplot as plt
+actual = np.array(['Positive', 'Positive', 'Negative', 'Negative'])
+predicted = np.array(['Positive', 'Negative', 'Negative', 'Positive'])
+cm = confusion_matrix(actual, predicted, labels=['Positive', 'Negative'])
+sns.heatmap(cm, annot=True, fmt='g', cmap='Blues', 
+            xticklabels=['Positive', 'Negative'], yticklabels=['Positive', 'Negative'])
+plt.ylabel('Actual', fontsize=13)
+plt.xlabel('Prediction', fontsize=13)
+plt.title('2-Class Confusion Matrix', fontsize=17)
+plt.show()

@@ -1,0 +1,37 @@
+import numpy as np
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import accuracy_score, confusion_matrix
+import seaborn as sns
+import matplotlib.pyplot as plt
+from sklearn.datasets import load_iris
+
+data = load_iris()
+X = data.data
+y = data.target
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+model = RandomForestClassifier(random_state=42)
+model.fit(X_train, y_train)
+y_train_pred = model.predict(X_train)
+y_test_pred = model.predict(X_test)
+train_accuracy = accuracy_score(y_train, y_train_pred)
+test_accuracy = accuracy_score(y_test, y_test_pred)
+
+print(f'Training Accuracy: {train_accuracy}')
+print(f'Test Accuracy: {test_accuracy}')
+cm_train = confusion_matrix(y_train, y_train_pred)
+cm_test = confusion_matrix(y_test, y_test_pred)
+fig, ax = plt.subplots(1, 2, figsize=(14, 5))
+
+sns.heatmap(cm_train, annot=True, fmt='d', cmap='Blues', xticklabels=data.target_names, yticklabels=data.target_names, ax=ax[0])
+ax[0].set_title('Confusion Matrix - Training Set')
+ax[0].set_xlabel('Predicted')
+ax[0].set_ylabel('Actual')
+
+sns.heatmap(cm_test, annot=True, fmt='d', cmap='Blues', xticklabels=data.target_names, yticklabels=data.target_names, ax=ax[1])
+ax[1].set_title('Confusion Matrix - Test Set')
+ax[1].set_xlabel('Predicted')
+ax[1].set_ylabel('Actual')
+
+plt.tight_layout()
+plt.show()
